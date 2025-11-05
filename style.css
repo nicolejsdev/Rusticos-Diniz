@@ -1,0 +1,1307 @@
+/*
+* ====================================================================
+* 1. PALETA DE CORES E VARIÁVEIS
+* ====================================================================
+*/
+
+/*
+* Fundo Principal: #FFFFFF (Branco Puro)
+* Fundo do Header/Footer: #7B3F00 (Marrom de Carvalho)
+* Cor do Texto: #4B3832 (Marrom Escuro)
+* Destaque/Botões: #A0522D (Marrom Siena)
+* Verde-musgo: #556B2F
+* Branco Puro: #FFFFFF
+* Cor do Título no Rodapé: #706e4f (Verde Musgo - mais clara)
+*/
+
+
+/*
+* ====================================================================
+* 2. ESTILOS GERAIS (Reset, Body e Tipografia Global)
+* ====================================================================
+*/
+
+/* --- RESET GLOBAL AGRESSIVO (SOLUÇÃO PARA ESPAÇO NO TOPO) --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+}
+/* ------------------------------------------------------------- */
+
+/* --- Melhoria de renderização de texto de texto (Global) --- */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* --- Estilos Gerais do Body --- */
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #FFFFFF; /* Removido !important */ 
+    color: #4B3832;
+    line-height: 1.6;
+    /* Adicionado para garantir que não haja margem ou padding no body */
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Tipografia de Títulos e Elementos Centrais (Global) --- */
+h2, h1, .logo-central p {
+    color: #4B3832;
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    margin-bottom: 1.5em;
+    font-size: 2.2em;
+}
+
+/* Adicionar a mesma fonte nos títulos dos cartões */
+.cartao-projeto h3 {
+    font-family: 'Playfair Display', serif;
+    color: #7B3F00;
+    font-size: 1.5em;
+    margin: 0.5em 0 0.5em;
+}
+
+/* --- Estilos Específicos para a Seção Home --- */
+#home {
+    text-align: center; 
+}
+
+/* Estilos específicos para o subtítulo (parágrafo 'p') na seção HOME */
+#home p {
+    font-size: 1.5em; 
+    font-weight: 300;
+    margin-top: 0.5em;
+}
+
+/* 🟢 DEFINIÇÃO BASE DO SELETOR 'main' */
+main {
+    width: 100%;
+    box-sizing: border-box; 
+    z-index: 1; 
+    /* PADRÃO: ADICIONA ESPAÇO NO TOPO PARA A BARRA FIXA (cerca de 40px) */
+    padding-top: 40px; 
+    margin-top: 0; 
+}
+
+
+/*
+* ====================================================================
+* 3. CABEÇALHO E NAVEGAÇÃO (Header, Slideshow e Menu Lateral)
+* ====================================================================
+*/
+
+/* --- Estilos do Slideshow Container --- */
+.header-slideshow-container {
+    position: relative;
+    width: 100%;
+    /* Altura definida pelo Mobile padrão, será ajustada nas Media Queries */
+    height: 450px; 
+    overflow: hidden;
+    z-index: 1;
+}
+
+.slideshow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    filter: saturate(120%);
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+/* --- Estilos do Header (Overlay e Logo) --- */
+header {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5; 
+    background-color: rgba(245, 245, 220, 0.4); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+    box-sizing: border-box;
+    /* 🚨 CORREÇÃO V7: Desce o header um pouco para não ser coberto pela barra fixa */
+    padding-top: 40px; 
+}
+
+.logo-central {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    text-align: center;
+    color: #4B3832;
+    z-index: 3;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+/* 🚨 AJUSTE SOLICITADO: Aumenta a fonte do subtítulo da logo (Mobile) */
+.logo-central p {
+    margin-top: 0.8em;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5em; 
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+    word-wrap: break-word;
+}
+
+.logo {
+    max-width: 100%;
+    max-height: 250px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* --- Estilos do Menu Lateral (Slide-in) --- */
+#abrirMenuBtn {
+    position: fixed;
+    /* 🚨 CORREÇÃO V7: Posiciona o botão abaixo da barra fixa no topo */
+    top: 45px; 
+    left: 15px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    color: #7B3F00;
+}
+
+#abrirMenuBtn svg {
+    width: 30px;
+    height: 30px;
+}
+
+#menuLateral {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #7B3F00; 
+    color: #FFFFFF;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease-in-out;
+    padding-top: 5em;
+    box-sizing: border-box;
+}
+
+#menuLateral.menu-aberto {
+    transform: translateX(0);
+}
+
+#fecharMenuBtn {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    background: transparent;
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+#menuLateral nav > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+#menuLateral nav ul li a {
+    display: block;
+    padding: 1em 2em;
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+#menuLateral nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* --- Estilos do Dropdown (Catálogo) --- */
+.menu-dropdown {
+    position: relative;
+}
+
+#menuLateral .menu-dropdown .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: none;
+}
+
+#menuLateral .menu-dropdown .submenu.mostrar {
+    display: block;
+}
+
+.submenu li {
+    padding: 0;
+}
+
+#menuLateral .submenu a {
+    color: #556B2F; /* Verde musgo */
+    font-size: 1em;
+    padding: 1em 2em;
+    padding-left: 3em;
+}
+
+#menuLateral .submenu a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+}
+
+
+/* --- Estilo Específico para o Link LANÇAMENTO no Menu Lateral --- */
+#menuLateral .link-lancamento {
+    /* Faz com que ocupe 100% da largura do menu */
+    display: block; 
+    
+    background-color: black;
+    color: white !important; 
+    
+    /* Remove todo o padding horizontal (lateral) para que ocupe 100% */
+    /* Padding vertical (10px) mantido. Padding horizontal (0) zerado. */
+    padding: 10px 0; 
+    margin: 5px 0; 
+    
+    text-align: center; /* Centraliza o texto */
+    border-radius: 0;
+    transition: background-color 0.3s;
+    
+    /* ZERA O PADDING LATERAL HERDADO DO <li> OU DO SUBMENU */
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#menuLateral .link-lancamento:hover {
+    background-color: #333;
+    color: white !important; 
+}
+
+
+/*
+* ====================================================================
+* 4. ESTILOS DE CONTEÚDO (Seções, Galeria e Carrossel)
+* ====================================================================
+*/
+
+/* --- Estilos das Seções da Página (Ocultar/Mostrar) --- */
+.page-section {
+    display: block; /* Mantido como block */
+    padding: 1em;
+    background-color: #FFFFFF;
+    
+    /* 💥 CORREÇÃO CRÍTICA PARA IMPEDIR VAZAMENTO 💥 */
+    height: 0; /* Define altura zero para seções inativas */
+    overflow: hidden; /* Garante que o conteúdo não vaze */
+    /* ----------------------------------------------- */
+    
+    min-height: 0; /* Anula o min-height padrão */
+    visibility: hidden;
+    opacity: 0;
+    position: absolute; /* Tira as seções inativas do fluxo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: opacity 0.5s, visibility 0s 0.5s; 
+}
+
+.page-section.active {
+    /* CRÍTICO: Garante que a aba apareça e anule qualquer display: none; */
+    display: block !important; 
+    
+    /* 💥 CORREÇÃO CRÍTICA PARA ATIVAR CONTEÚDO 💥 */
+    height: auto !important; /* Permite que o conteúdo defina a altura */
+    min-height: 10vh; /* Retorna o min-height desejado */
+    overflow: visible !important; /* Permite que o conteúdo seja visto */
+    /* ----------------------------------------------- */
+
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important; /* Traz de volta para o fluxo da página */
+    transition: opacity 0.5s;
+}
+
+/* --- Estilos da Galeria de Projetos (Grid Correto) --- */
+.galeria {
+    display: grid;
+    /* Padrão para mobile/telas menores: ajusta as colunas automaticamente */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    align-items: stretch;
+    align-content: stretch;
+    padding: 1em;
+}
+
+.cartao-projeto {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    border: 1px solid #E0DBCF;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.cartao-projeto:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.cartao-projeto a {
+    text-decoration: none;
+    display: block;
+    height: 300px; 
+}
+
+/* Estilos aplicados SOMENTE às imagens dentro dos cartões da galeria. */
+.galeria .cartao-projeto img {
+    width: 100%;
+    height: 100%; 
+    object-fit: cover !important;
+    display: block;
+    border-bottom: 1px solid #E0DBCF;
+}
+
+/* Estilo para o wrapper do texto dentro do cartão */
+.cartao-conteudo-texto {
+    padding: 0 0.5em 1em;
+    text-align: center;
+}
+
+/* --- Estilos do Carrossel (Ajustados) --- */
+.carrossel-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    flex-grow: 1;
+    /* Define uma altura fixa para o contêiner do carrossel no mobile */
+    height: 300px; 
+}
+
+/* Aplica a altura fixa na imagem dentro do container/link do carrossel */
+.carrossel-container a,
+.carrossel-container img {
+    height: 100%; 
+    width: 100%; 
+    object-fit: cover;
+}
+
+.carrossel-imagens {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: 100%;
+    /* CRÍTICO: Garante que todos os slides fiquem lado a lado para o JS com 'transform' */
+    white-space: nowrap; 
+}
+
+.carrossel-imagens a {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Força o display para cartões com apenas uma imagem (Para casos onde o JS não roda) */
+.carrossel-imagens a:only-child {
+    display: block; 
+}
+
+
+.anterior-btn,
+.proximo-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1.5em;
+    z-index: 10;
+}
+
+.anterior-btn {
+    left: 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.proximo-btn {
+    right: 0;
+    border-radius: 5px 0 0 5px;
+}
+
+.anterior-btn:hover,
+.proximo-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* --- Estilo para imagens fora da galeria --- */
+.imagem-secao {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+}
+
+/* --- Estilos da Seção Sobre Nós --- */
+/* 🚨 AJUSTE V7: Aumenta a fonte do texto principal em #sobre */
+#sobre p {
+    font-size: 1.3em; /* Novo tamanho base para o texto principal */
+    text-align: justify;
+    margin-bottom: 1.5em;
+    padding: 0 1em;
+}
+
+#sobre p strong {
+    color: #A0522D;
+}
+
+/* 🚨 AJUSTE V7: Deixa o texto sobre a madeira mais escuro e grosso/negrito (Use: <p class="texto-madeira">) */
+#sobre .texto-madeira {
+    color: #000000; 
+    font-weight: bold; 
+    font-size: 1.3em; 
+    margin-top: 1.5em; 
+}
+
+
+/*
+* ====================================================================
+* 4.1. ESTILOS ESPECÍFICOS PARA GALERIA DE IMAGENS DIRETAS (Aba 'Todos')
+* ====================================================================
+*/
+
+/* * CRÍTICO: Aplica estilos a todas as tags <img> DENTRO de um elemento com a classe .galeria 
+ * que não estão dentro de um cartão. Isso garante o tamanho correto para a aba 'Todos'.
+ */
+.galeria img {
+    /* Define uma altura fixa para que as imagens fiquem uniformes */
+    height: 300px; 
+    
+    /* Garante que a imagem preencha a altura e largura do grid */
+    width: 100%;
+    
+    /* Corta o excesso para manter a proporção */
+    object-fit: cover; 
+    
+    /* Opcionais: para garantir que nada as esconda */
+    display: block; 
+    visibility: visible;
+    opacity: 1;
+
+    /* Adiciona uma borda sutil ou arredondamento para a foto */
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    /* Transição suave para efeitos de hover */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.galeria img:hover {
+    /* Efeito de zoom sutil ao passar o mouse */
+    transform: scale(1.03);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+/* --- Ajuste de Media Query para a Galeria Simples --- */
+
+@media (min-width: 768px) {
+    /* Aumenta a altura das imagens diretas em telas maiores */
+    .galeria img {
+        height: 400px;
+    }
+}
+/*
+* ====================================================================
+* 4.2. ESTILOS ESPECÍFICOS PARA SEÇÃO LANÇAMENTO (Toca Pet)
+* ====================================================================
+*/
+
+/* --- Estilo Geral da Seção --- */
+#lancamento {
+    padding: 30px 15px;
+}
+
+/* Título de Lançamento (Usa a fonte Playfair Display global) */
+.titulo-lancamento {
+    color: #7B3F00; /* Marrom de Carvalho */
+    font-size: 2.5em; 
+    margin-bottom: 0.8em;
+}
+
+/* Texto Introdutório e Chamada para Ação */
+.introducao, .chamada-acao {
+    font-size: 1.3em;
+    text-align: center;
+    max-width: 800px;
+    margin: 1em auto;
+}
+
+.chamada-acao {
+    font-weight: bold;
+    color: #A0522D; /* Marrom Siena - Destaque */
+}
+
+/* --- Galeria de Imagens da Toca (Flex Grid) --- */
+.galeria-toca {
+    display: flex;
+    flex-wrap: wrap; /* Garante que quebre a linha em mobile */
+    justify-content: center;
+    gap: 15px;
+    margin: 2em 0;
+}
+
+.imagem-toca {
+    width: 100%; /* Largura máxima para mobile */
+    max-width: 350px; /* Limita o tamanho em telas maiores */
+    height: 250px; /* Altura fixa para uniformidade */
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.imagem-toca:hover {
+    transform: scale(1.05);
+}
+
+/* --- Conteúdo das Características --- */
+.caracteristicas-toca {
+    text-align: left;
+    margin: 30px auto;
+    max-width: 800px;
+}
+
+.caracteristicas-toca h3 {
+    font-family: 'Playfair Display', serif; /* Mantém a fonte dos títulos */
+    font-size: 1.6em;
+    color: #556B2F; /* Verde-musgo */
+    margin-top: 25px;
+    border-bottom: 2px solid #E0DBCF; /* Borda sutil */
+    padding-bottom: 5px;
+}
+
+.caracteristicas-toca ul {
+    list-style: disc;
+    margin: 1em 0 1.5em 2em;
+}
+
+.dimensoes {
+    font-style: italic;
+    color: #4B3832;
+    margin-top: 1.5em;
+}
+
+/* --- Botão Comprar Agora --- */
+.botao-comprar {
+    /* Usa a cor de destaque da sua paleta */
+    background-color: #A0522D; 
+    color: #FFFFFF;
+    
+    padding: 15px 40px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2em;
+    
+    display: inline-block;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.botao-comprar:hover {
+    background-color: #7B3F00; /* Cor do Header/Footer no hover */
+    transform: translateY(-2px);
+}
+
+/* --- Media Query para Desktop/Tablet --- */
+@media (min-width: 768px) {
+    .imagem-toca {
+        height: 300px; /* Aumenta a altura no desktop */
+    }
+    .galeria-toca {
+        gap: 30px;
+    }
+    .titulo-lancamento {
+        font-size: 3em;
+    }
+}
+
+/*
+* ====================================================================
+* 5. FORMULÁRIOS (Contato e Orçamento)
+* ====================================================================
+*/
+
+/* --- Estilos do Formulário de Contato e Orçamento --- */
+#orcamento form, #contato form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    padding: 0 1em;
+}
+
+#orcamento label, #contato label {
+    font-weight: bold;
+    color: #4B3832;
+    margin-bottom: 0.2em;
+    display: block;
+    word-wrap: break-word;
+}
+
+#orcamento input, #orcamento textarea, #orcamento select,
+#contato input, #contato textarea {
+    width: calc(100% - 1.6em);
+    padding: 0.8em;
+    border: 1px solid #A0522D;
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: #FDFDFD;
+    color: #4B3832;
+    box-sizing: border-box;
+}
+
+#orcamento textarea, #orcamento select, #contato textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+#orcamento button, #contato button {
+    background-color: #A0522D;
+    color: #FFFFFF;
+    padding: 1em 1.5em;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: center;
+    width: 100%;
+    max-width: 250px;
+}
+
+#orcamento button:hover, #contato button:hover {
+    background-color: #7B3F00;
+}
+
+/* 🚨 AJUSTE CRÍTICO V7: Tamanho e Centralização do texto introdutório do formulário (Mobile) */
+#orcamento p {
+    font-size: 1.5em !important; /* Aumentado e FORÇADO */
+    color: #4B3832; 
+    display: block;
+    margin-top: 0.5em;
+    word-wrap: break-word;
+    text-align: center !important; /* CENTRALIZADO E FORÇADO */
+    padding: 0 1em;
+}
+
+/*
+* ====================================================================
+* 6. ESTILOS DO WHATSAPP E LOCALIZAÇÃO (Substitui o formulário de Contato)
+* ====================================================================
+*/
+
+/* Estilo para o link/botão do WhatsApp (AJUSTADO PARA QUEBRA DE LINHA) */
+.whatsapp-button {
+    display: block; 
+    text-align: center;
+    
+    padding: 15px 30px;
+    margin: 20px auto 10px auto; 
+    font-size: 1.25em;
+    font-weight: bold;
+    color: white; 
+    background-color: #25D366; 
+    border: none;
+    border-radius: 50px; 
+    text-decoration: none; 
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%; 
+    max-width: 400px;
+}
+
+.whatsapp-button i {
+    margin-right: 10px;
+    font-size: 1.5em;
+    vertical-align: middle; 
+}
+
+.whatsapp-button:hover {
+    background-color: #128C7E; 
+    transform: translateY(-2px); 
+}
+
+/* ESTILOS PARA O BOTÃO DO INSTAGRAM (NOVO) */
+.instagram-button {
+    display: block; 
+    text-align: center; 
+    
+    padding: 15px 30px;
+    margin: 10px auto 20px auto; 
+    
+    font-size: 1.25em;
+    font-weight: bold;
+    color: white; 
+    
+    /* Cor de Fundo Degradê do Instagram */
+    background: #C13584; 
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+    
+    border: none;
+    border-radius: 50px; 
+    text-decoration: none; 
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 90%; 
+    max-width: 400px;
+}
+
+.instagram-button i {
+    margin-right: 10px;
+    font-size: 1.5em;
+    vertical-align: middle; 
+}
+
+.instagram-button:hover {
+    opacity: 0.9; 
+    transform: translateY(-2px); 
+}
+
+
+/* Estilo para o container do mapa e informações adicionais */
+.info-adicional {
+    margin-top: 30px;
+    padding: 20px 0;
+    text-align: center; 
+}
+
+/* 🚨 AJUSTE V7: Aumenta a fonte do texto de localização (Mobile) */
+.info-adicional p {
+    font-size: 1.35em; 
+    line-height: 1.6; 
+}
+
+.map-container {
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Ajusta o alinhamento da seção, já que o formulário foi removido */
+#contato {
+    text-align: center;
+}
+
+/*
+* ====================================================================
+* 6.1. ESTILOS DA GALERIA DE IMAGENS NA SEÇÃO CONTATO (Marcenaria)
+* ====================================================================
+*/
+
+.galeria-contato-wrapper {
+    /* Ativa o Flexbox para alinhar os itens horizontalmente */
+    display: flex; 
+    /* Permite que as imagens quebrem para a linha de baixo em telas menores */
+    flex-wrap: wrap; 
+    /* Adiciona um espaçamento entre as imagens */
+    gap: 15px; 
+    /* Centraliza a galeria dentro do container */
+    justify-content: center; 
+    /* Adiciona um respiro acima da galeria */
+    margin-top: 30px;
+    padding: 0 10px; /* Adiciona um pequeno padding lateral para respiro no mobile */
+}
+
+.imagem-contato {
+    /* Define que cada imagem ocupará um terço do espaço (33.33%) */
+    /* Usamos 'flex-basis' para definir a largura base, subtraindo o 'gap' */
+    flex: 1 1 calc(33.33% - 10px); 
+    
+    /* Garante que a imagem se ajuste ao container */
+    width: 100%;
+    height: 200px; /* Altura fixa para uniformidade no mobile */
+    
+    /* Garante que a imagem cubra a área sem distorcer, cortando se necessário */
+    object-fit: cover;
+    
+    /* Estilos de borda e sombra consistentes com outros elementos (opcional) */
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    
+    transition: transform 0.3s ease-in-out;
+}
+
+.imagem-contato:hover {
+    transform: scale(1.03);
+}
+
+/* 📱 Ajuste de Responsividade para a Galeria de Contato */
+@media (max-width: 768px) {
+    .imagem-contato {
+        /* Em tablets (e mobile landscape), as imagens podem ocupar metade do espaço */
+        flex: 1 1 calc(50% - 10px); 
+        height: 220px;
+    }
+}
+
+@media (max-width: 480px) {
+    .imagem-contato {
+        /* Em celulares, cada imagem ocupa a largura total (fica uma abaixo da outra) */
+        flex: 1 1 100%;
+        height: 250px;
+    }
+}
+
+@media (min-width: 768px) {
+    .imagem-contato {
+        /* Altura maior para desktop */
+        height: 300px; 
+    }
+}
+
+/*
+* ====================================================================
+* 7. RODAPÉ (Footer)
+* ====================================================================
+*/
+
+/* --- Rodapé --- */
+footer {
+    background-color: #7B3F00; 
+    color: #f4f4f4;
+    
+    /* 🚨 AJUSTE: Mantenha apenas o padding vertical para não interferir no alinhamento lateral */
+    padding: 20px 0;
+    
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+}
+
+/* --- Rodapé Container (Mobile Padrão - Coluna) --- */
+.rodape-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza todos os itens na coluna (Mobile) */
+    gap: 20px;
+}
+
+/* Novo: Estilos para Mobile - Garante que todos os textos estejam centralizados */
+.rodape-copyright,
+.rodape-info, 
+.rodape-desenvolvimento {
+    text-align: center; 
+    width: 100%; /* Ocupa a largura total para centralizar */
+}
+
+.titulo-rodape {
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    font-weight: 700;
+    color: #706e4f;
+}
+
+.rodape-info p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 3px 0;
+}
+
+.rodape-info a {
+    color: #f4f4f4;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.rodape-info a:hover {
+    color: #706e4f;
+}
+
+.rodape-desenvolvimento p {
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.rodape-desenvolvimento .nicole-diniz {
+    color: #556B2F;
+}
+
+
+/*
+* ====================================================================
+* 8. MODAL (Pop-up)
+* ====================================================================
+*/
+
+/* --- ESTILOS DO MODAL (POP-UP) --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    /* CRÍTICO: Ajuste o padding para dar espaço ao botão 'X' */
+    padding: 25px 20px 20px 20px; 
+    
+    border: 1px solid #888;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    position: relative; 
+    font-family: 'Playfair Display', serif;
+    box-sizing: border-box;
+    
+    /* Ajuste para o topo e direita, considerando a altura do 'X' (35px) e a margem (15px) */
+    padding-top: 45px; 
+    padding-right: 45px; 
+}
+
+/* --- NOVO ESTILO PARA O BOTÃO FECHAR ('X') - ALTO CONTRASTE E MAIS GROSSO --- */
+
+.close-button {
+
+    /* 1. VISUAL: Cor do ícone e tamanho */
+
+    color: #4B3832;
+
+    font-size: 26px;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    line-height: 1;
+
+
+
+    /* 2. FORMA: Torna-o um círculo branco */
+
+    background-color: #FFFFFF;
+
+    border: 2px solid #A0522D; /* Borda de cor de destaque */
+
+    border-radius: 50%;
+
+    width: 35px;        
+
+    height: 35px;      
+
+    display: flex;      
+
+    justify-content: center;
+
+    align-items: center;
+
+
+
+    /* 3. POSICIONAMENTO: Absoluto, fora da caixa de conteúdo para maior destaque */
+
+    position: absolute;
+
+    top: -15px;    
+
+    right: -15px;  
+
+   
+
+    /* 4. Z-INDEX: Garantia de que ele esteja acima do conteúdo do modal */
+
+    z-index: 1002;
+
+   
+
+    transition: background-color 0.2s, transform 0.2s, color 0.2s;
+
+}
+
+
+
+.close-button:hover,
+
+.close-button:focus {
+
+    /* Feedback visual ao passar o mouse */
+
+    background-color: #A0522D; /* Inverte as cores ao passar o mouse */
+
+    color: #FFFFFF;
+
+    transform: scale(1.1);
+
+    text-decoration: none;
+
+}
+
+
+
+/*
+
+*
+/*
+* ====================================================================
+* 9. BARRA DE FRETE (NOVO)
+* ====================================================================
+*/
+
+/* 🚨 ESTILOS DA BARRA DE FRETE (AGORA FIXA NO TOPO) 🚨 */
+#barra-frete-topo {
+    background-color: #A0522D; /* Marrom Siena (Destaque) */
+    color: #FFFFFF;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 1em;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    
+    /* 💥 AJUSTES CRÍTICOS PARA FIXAR NO TOPO 💥 */
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    
+    width: 100%;
+    /* Z-index muito alto para garantir visibilidade, mas abaixo do menu lateral (999/1000) */
+    z-index: 998; 
+}
+
+
+/*
+* ====================================================================
+* 10. MEDIA QUERIES (Ajustes de Responsividade)
+* ====================================================================
+*/
+
+/* --- Media Queries para Telas Maiores --- */
+
+@media (min-width: 480px) {
+    h1 {
+        font-size: 2.5em;
+    }
+    
+    /* 🚨 AJUSTE SOLICITADO: Aumenta a fonte do subtítulo da logo (Pequenas telas) */
+    .logo-central p {
+        font-size: 1.6em; 
+    }
+
+    /* Aumenta a altura de referência da galeria de mesas */
+    .carrossel-container,
+    .carrossel-container a,
+    .galeria .cartao-projeto a,
+    .carrossel-container img,
+    .galeria .cartao-projeto img {
+        height: 320px; 
+    }
+
+    .galeria {
+        gap: 30px;
+        padding: 1.5em;
+    }
+    #orcamento button, #contato button {
+        align-self: flex-end;
+        width: auto;
+    } 
+    
+    /* 🚨 AJUSTE V7: Aumenta a fonte do texto introdutório do formulário (Pequenas telas) */
+    #orcamento p {
+        font-size: 1.5em !important; 
+    }
+}
+
+@media (min-width: 768px) {
+    /* Ajuste de margem ou padding se necessário para não cobrir o menu principal (do topo) */
+    #barra-frete-topo {
+        padding: 10px 0;
+    }
+
+    /* 🚨 CORREÇÃO V7: Ajusta o botão do menu lateral para descer um pouco mais no desktop */
+    #abrirMenuBtn {
+        top: 50px; 
+    }
+
+    /* 🚨 CORREÇÃO V7: Desce o header um pouco mais no desktop, se necessário */
+    header {
+        padding-top: 50px;
+    }
+    
+    h1 {
+        font-size: 3em;
+        margin-bottom: 1em;
+    }
+    h2 {
+        font-size: 2.5em;
+    }
+    /* 🚨 AJUSTE SOLICITADO: Aumenta a fonte do subtítulo da logo (Desktop) */
+    .logo-central p {
+        font-size: 1.8em; 
+    }
+    .header-slideshow-container {
+        height: 550px;
+    }
+    
+    .galeria {
+        /* ESTE É O AJUSTE QUE GARANTE 3 COLUNAS FIXAS EM TELAS MAIORES */
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+        padding: 2em;
+    }
+
+    /* Aumenta novamente a altura de referência da galeria de mesas para desktop */
+    .carrossel-container,
+    .carrossel-container a,
+    .galeria .cartao-projeto a,
+    .carrossel-container img,
+    .galeria .cartao-projeto img {
+        height: 380px; 
+    }
+    
+    /* Aumenta a altura das imagens diretas em telas maiores */
+    .galeria img {
+        height: 400px;
+    }
+
+    .cartao-projeto h3 {
+        font-size: 1.5em;
+    }
+
+    /* 🚨 AJUSTE V7: Aumenta a fonte do texto principal em #sobre (Desktop) */
+    #sobre p {
+        font-size: 1.4em;
+        padding: 0;
+    }
+    
+    /* 🚨 AJUSTE CRÍTICO V7: Tamanho e Centralização do texto introdutório do formulário (Desktop) */
+    #orcamento p {
+        font-size: 1.6em !important; 
+        text-align: center !important; /* CENTRALIZADO E FORÇADO */
+        padding: 0;
+    }
+    
+    #orcamento form, #contato form {
+        padding: 0;
+    }
+
+    /* ================================================== */
+    /* 🚀 CORREÇÃO DO RODAPÉ (ESQUERDA-CENTRO-DIREITA) 🚀 */
+    /* ================================================== */
+    .rodape-container {
+        display: flex;
+        flex-direction: row; 
+        
+        /* CRÍTICO: Distribui os itens para os extremos e o centro */
+        justify-content: space-between; 
+        
+        align-items: flex-start; 
+        
+        /* GARANTE ALINHAMENTO COM A LOGO/CONTEÚDO PRINCIPAL */
+        width: 90%; 
+        max-width: 1200px; 
+        margin: 0 auto; 
+        padding: 20px 0;
+    }
+    
+    /* 1. SEÇÃO ESQUERDA: COPYRIGHT */
+    .rodape-copyright {
+        /* Define a largura para 33% e anula o 'flex: 1' anterior */
+        width: 33%; 
+        flex: none; 
+        text-align: left; /* Garante que o texto fique no canto esquerdo */
+    }
+    
+    /* 2. SEÇÃO CENTRAL: INFORMAÇÕES */
+    .rodape-info {
+        /* Define a largura para 33% */
+        width: 33%; 
+        flex: none; 
+        text-align: center; /* Garante que o texto fique no centro da coluna */
+    }
+    
+    /* 3. SEÇÃO DIREITA: DESENVOLVIMENTO */
+    .rodape-desenvolvimento {
+        /* Define a largura para 33% */
+        width: 33%; 
+        flex: none; 
+        text-align: right; /* Garante que o texto fique no canto direito */
+    }
+    /* ================================================== */
+    /* 🏁 FIM CORREÇÃO RODAPÉ 🏁 */
+    /* ================================================== */
+    
+    /* 🚨 AJUSTE V7: Aumenta a fonte do texto de localização (Desktop) */
+    .info-adicional p {
+        font-size: 1.4rem; 
+    }
+    .titulo-rodape {
+        font-size: 1.5rem;
+    }
+    .rodape-desenvolvimento p {
+        font-size: 0.85rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .header-slideshow-container {
+        height: 600px;
+    }
+}
