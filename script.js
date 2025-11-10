@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const orcamentoForm = document.getElementById('orcamentoForm');
     const whatsappNumber = "5531993170196"; // <-- SUBSTITUA PELO SEU NÚMERO (Apenas dígitos!)
-
+}
     if (orcamentoForm) {
         orcamentoForm.addEventListener('submit', function(e) {
             e.preventDefault(); // Impede o envio padrão do formulário
