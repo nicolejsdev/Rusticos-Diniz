@@ -166,43 +166,47 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ===============================================
-    // 6. FORMULÁRIO PARA WHATSAPP (A PARTE QUE DEVE FUNCIONAR)
-    // ===============================================
-    const orcamentoForm = document.getElementById('orcamentoForm');
-    const whatsappNumber = "5531993170196";
+// 6. FORMULÁRIO PARA WHATSAPP (VERSÃO SEGURA CONTRA ERROS DE ID)
+// ===============================================
+const orcamentoForm = document.getElementById('orcamentoForm');
+const whatsappNumber = "5531993170196";
 
-    if (orcamentoForm) {
-        orcamentoForm.addEventListener('submit', function (e) {
-            e.preventDefault(); // <-- IMPEDE O RECARREGAMENTO DA PÁGINA
+if (orcamentoForm) {
+    orcamentoForm.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-            const nome = document.getElementById('nome-orcamento').value;
-            const email = document.getElementById('email-orcamento').value;
-            const telefone = document.getElementById('telefone-orcamento').value;
-            const tipo = document.getElementById('tipo').value;
-            const madeira = document.getElementById('madeira').value;
-            const ambiente = document.getElementById('ambiente').value;
-            const detalhes = document.getElementById('detalhes').value;
+        // **ALTERAÇÃO AQUI:** Usando encadeamento opcional e verificação simples
+        const getVal = (id) => document.getElementById(id)?.value || 'Não Informado/Faltante';
 
-            // Montagem da mensagem
-            const quebraLinha = '%0A';
-            let mensagem = `*🚨 NOVO PEDIDO DE ORÇAMENTO RÚSTICOS DINIZ 🚨*${quebraLinha}${quebraLinha}`;
-            mensagem += `*Nome:* ${nome}${quebraLinha}`;
-            mensagem += `*Email:* ${email}${quebraLinha}`;
-            mensagem += `*Telefone:* ${telefone || 'Não Informado'}${quebraLinha}${quebraLinha}`;
-            mensagem += `*Detalhes do Projeto:*${quebraLinha}`;
-            mensagem += `  - Tipo: ${tipo || 'Não Informado'}${quebraLinha}`;
-            mensagem += `  - Madeira Preferida: ${madeira || 'Não Informado'}${quebraLinha}`;
-            mensagem += `  - Ambiente: ${ambiente || 'Não Informado'}${quebraLinha}${quebraLinha}`;
-            mensagem += `*Descrição/Dimensões:*${quebraLinha}${detalhes}${quebraLinha}${quebraLinha}`;
-            mensagem += `A foto de referência deve ser enviada após esta mensagem.`;
+        const nome = getVal('nome-orcamento');
+        const email = getVal('email-orcamento');
+        const telefone = getVal('telefone-orcamento');
+        const tipo = getVal('tipo');
+        const madeira = getVal('madeira');
+        const ambiente = getVal('ambiente');
+        const detalhes = getVal('detalhes');
 
-            const urlMensagem = encodeURIComponent(mensagem);
-            const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${urlMensagem}`;
+        // ... O resto do código permanece o mesmo
+        
+        const quebraLinha = '%0A';
+        let mensagem = `*🚨 NOVO PEDIDO DE ORÇAMENTO RÚSTICOS DINIZ 🚨*${quebraLinha}${quebraLinha}`;
+        mensagem += `*Nome:* ${nome}${quebraLinha}`;
+        mensagem += `*Email:* ${email}${quebraLinha}`;
+        mensagem += `*Telefone:* ${telefone}${quebraLinha}${quebraLinha}`; // Use 'telefone' aqui, pois já está tratado
+        mensagem += `*Detalhes do Projeto:*${quebraLinha}`;
+        mensagem += `  - Tipo: ${tipo}${quebraLinha}`;
+        mensagem += `  - Madeira Preferida: ${madeira}${quebraLinha}`;
+        mensagem += `  - Ambiente: ${ambiente}${quebraLinha}${quebraLinha}`;
+        mensagem += `*Descrição/Dimensões:*${quebraLinha}${detalhes}${quebraLinha}${quebraLinha}`;
+        mensagem += `A foto de referência deve ser enviada após esta mensagem.`;
 
-            window.open(url, '_blank'); // Abre a nova aba/janela do WhatsApp
-            orcamentoForm.reset();
-        });
-    }
+        const urlMensagem = encodeURIComponent(mensagem);
+        const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${urlMensagem}`;
+
+        window.open(url, '_blank');
+        orcamentoForm.reset();
+    });
+}
 
     // ===============================================
     // 7. EXECUÇÃO FINAL
