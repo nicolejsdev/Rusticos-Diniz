@@ -1,5 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function () {
+ console.log("SCRIPT CARREGADO COM SUCESSO!"); // <-- ADICIONE ESTA LINHA AQUI!
+
     // ===============================================
     // VARIÁVEIS GLOBAIS
     // ===============================================
