@@ -254,19 +254,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-// ===============================================
-// 6. LÓGICA DE ENVIO DO FORMULÁRIO PARA WHATSAPP
-// ===============================================
-
+<script>
 document.addEventListener('DOMContentLoaded', function () {
     const orcamentoForm = document.getElementById('orcamentoForm');
-    const whatsappNumber = "5531993170196"; // <-- SEU NÚMERO
+    const whatsappNumber = "5531993170196";
 
     if (orcamentoForm) {
-        // A CORREÇÃO PRINCIPAL ESTÁ AQUI
         orcamentoForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            
+            e.preventDefault(); // Impede o envio padrão
+
             const nome = document.getElementById('nome-orcamento').value;
             const email = document.getElementById('email-orcamento').value;
             const telefone = document.getElementById('telefone-orcamento').value;
@@ -293,8 +289,11 @@ document.addEventListener('DOMContentLoaded', function () {
             window.open(url, '_blank');
             orcamentoForm.reset();
         });
+    } else {
+        console.warn('Formulário com id="orcamentoForm" não encontrado.');
     }
 });
+</script>
 
     // ===============================================
     // 7. CHAMADAS FINAIS DE FUNÇÃO (EXECUÇÃO)
