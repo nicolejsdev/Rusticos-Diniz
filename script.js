@@ -253,43 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showImage(currentIndex);
         });
     }
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const enviarBtn = document.getElementById('enviarOrcamento');
-    const whatsappNumber = "5531993170196";
-
-    if (enviarBtn) {
-        enviarBtn.addEventListener('click', function () {
-            const nome = document.getElementById('nome-orcamento').value;
-            const email = document.getElementById('email-orcamento').value;
-            const telefone = document.getElementById('telefone-orcamento').value;
-            const tipo = document.getElementById('tipo').value;
-            const madeira = document.getElementById('madeira').value;
-            const ambiente = document.getElementById('ambiente').value;
-            const detalhes = document.getElementById('detalhes').value;
-
-            const quebraLinha = '%0A';
-            let mensagem = `*🚨 NOVO PEDIDO DE ORÇAMENTO RÚSTICOS DINIZ 🚨*${quebraLinha}${quebraLinha}`;
-            mensagem += `*Nome:* ${nome}${quebraLinha}`;
-            mensagem += `*Email:* ${email}${quebraLinha}`;
-            mensagem += `*Telefone:* ${telefone || 'Não Informado'}${quebraLinha}${quebraLinha}`;
-            mensagem += `*Detalhes do Projeto:*${quebraLinha}`;
-            mensagem += `  - Tipo: ${tipo || 'Não Informado'}${quebraLinha}`;
-            mensagem += `  - Madeira Preferida: ${madeira || 'Não Informado'}${quebraLinha}`;
-            mensagem += `  - Ambiente: ${ambiente || 'Não Informado'}${quebraLinha}${quebraLinha}`;
-            mensagem += `*Descrição/Dimensões:*${quebraLinha}${detalhes}${quebraLinha}${quebraLinha}`;
-            mensagem += `A foto de referência deve ser enviada após esta mensagem.`;
-
-            const urlMensagem = encodeURIComponent(mensagem);
-            const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${urlMensagem}`;
-
-            window.open(url, '_blank');
-            document.getElementById('orcamentoForm').reset();
-        });
-    }
-});
-</script>
+<section id="orcamento" class="secao-conteudo page-section"> <h2>Transforme sua Ideia em Realidade</h2> <p>Na Rústicos Diniz, acreditamos que cada peça de madeira conta uma história. Se você tem um projeto especial em mente, preencha o formulário abaixo. Quanto mais detalhes você nos der, mais precisa será a nossa proposta.</p> <form id="orcamentoForm"> <div> <label for="nome-orcamento">Nome:</label> <input type="text" id="nome-orcamento" name="nome" required> </div> <div> <label for="email-orcamento">Email:</label> <input type="email" id="email-orcamento" name="email" required> </div> <div> <label for="telefone-orcamento">Telefone:</label> <input type="tel" id="telefone-orcamento" name="telefone"> </div> <div> <label for="tipo">Tipo de Projeto:</label> <select id="tipo" name="tipo"> <option value="">Selecione...</option> <option value="Mesa">Mesa de Jantar/Centro</option> <option value="Bancada">Bancada/Ilha de Cozinha</option> <option value="Cadeira">Cadeira/Banco</option> <option value="Decoracao">Objeto de Decoração</option> <option value="Outros">Outro</option> </select> </div> <div> <label for="madeira">Tipo de Madeira:</label> <select id="madeira" name="madeira"> <option value="">Selecione...</option> <option value="teca">Teca</option> <option value="angelim">Angelim</option> <option value="cumaru">Cumaru</option> <option value="pinus">Pinus</option> <option value="roxinho">Roxinho</option> <option value="caxeta">Caxeta</option> <option value="imbuia">Imbuia</option> <option value="ype">Ypê</option> <option value="freijo">Freijó</option> <option value="garapeira">Garapeira</option> <option value="jatoba">Jatobá</option> <option value="sucupira">Sucupira</option> <option value="angico">Angico</option> </select> </div> <div> <label for="ambiente">Ambiente:</label> <select id="ambiente" name="ambiente"> <option value="">Selecione...</option> <option value="externo">Externo</option> <option value="interno">Interno</option> </select> </div> <div> <label for="detalhes">Detalhes e Dimensões:</label> <textarea id="detalhes" name="detalhes" placeholder="Ex: Mesa de jantar em madeira de demolição, 2.00m x 1.00m."></textarea> </div> <p style=" text-align: center; font-weight: bold; color: #A0522D; /* Cor de destaque */ border: 1px solid #A0522D; padding: 10px; border-radius: 5px; font-size: 1em; margin-top: 1.5em; margin-bottom: 0.5em; "> ⚠️ A foto de referência deve ser enviada após a mensagem no WhatsApp. </p> <button type="submit">Enviar Pedido de Orçamento</button> </form> </section>
 
     // ===============================================
     // 7. CHAMADAS FINAIS DE FUNÇÃO (EXECUÇÃO)
