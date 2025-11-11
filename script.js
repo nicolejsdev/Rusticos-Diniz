@@ -166,44 +166,29 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ===============================================
-// 6. FORMULÁRIO PARA WHATSAPP (VERSÃO SEGURA CONTRA ERROS DE ID)
+// 6. TESTE DE ISOLAMENTO (SUBSTITUA TEMPORARIAMENTE)
 // ===============================================
 const orcamentoForm = document.getElementById('orcamentoForm');
 const whatsappNumber = "5531993170196";
 
 if (orcamentoForm) {
     orcamentoForm.addEventListener('submit', function (e) {
-        e.preventDefault();
+        e.preventDefault(); // IMPEDE O ENVIO PADRÃO
 
-        // **ALTERAÇÃO AQUI:** Usando encadeamento opcional e verificação simples
-        const getVal = (id) => document.getElementById(id)?.value || 'Não Informado/Faltante';
-
-        const nome = getVal('nome-orcamento');
-        const email = getVal('email-orcamento');
-        const telefone = getVal('telefone-orcamento');
-        const tipo = getVal('tipo');
-        const madeira = getVal('madeira');
-        const ambiente = getVal('ambiente');
-        const detalhes = getVal('detalhes');
-
-        // ... O resto do código permanece o mesmo
+        // MENSAGEM MÍNIMA DE TESTE
+        const mensagemTeste = "TESTE DE ENVIO WHATSAPP BEM SUCEDIDO!";
         
-        const quebraLinha = '%0A';
-        let mensagem = `*🚨 NOVO PEDIDO DE ORÇAMENTO RÚSTICOS DINIZ 🚨*${quebraLinha}${quebraLinha}`;
-        mensagem += `*Nome:* ${nome}${quebraLinha}`;
-        mensagem += `*Email:* ${email}${quebraLinha}`;
-        mensagem += `*Telefone:* ${telefone}${quebraLinha}${quebraLinha}`; // Use 'telefone' aqui, pois já está tratado
-        mensagem += `*Detalhes do Projeto:*${quebraLinha}`;
-        mensagem += `  - Tipo: ${tipo}${quebraLinha}`;
-        mensagem += `  - Madeira Preferida: ${madeira}${quebraLinha}`;
-        mensagem += `  - Ambiente: ${ambiente}${quebraLinha}${quebraLinha}`;
-        mensagem += `*Descrição/Dimensões:*${quebraLinha}${detalhes}${quebraLinha}${quebraLinha}`;
-        mensagem += `A foto de referência deve ser enviada após esta mensagem.`;
-
-        const urlMensagem = encodeURIComponent(mensagem);
+        // CONSTRUÇÃO DA URL BÁSICA
+        const urlMensagem = encodeURIComponent(mensagemTeste);
         const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${urlMensagem}`;
 
+        // TENTA ABRIR O WHATSAPP
+        console.log("Tentando abrir o WhatsApp com URL:", url);
         window.open(url, '_blank');
+        
+        // MOSTRA UMA MENSAGEM NO CONSOLE SE TUDO FUNCIONOU ATÉ AQUI
+        console.log("Execução da função concluída.");
+
         orcamentoForm.reset();
     });
 }
