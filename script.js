@@ -263,9 +263,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const whatsappNumber = "5531993170196"; // <-- SEU NÚMERO
 
     if (orcamentoForm) {
+        // A CORREÇÃO PRINCIPAL ESTÁ AQUI
         orcamentoForm.addEventListener('submit', function (e) {
             e.preventDefault();
-
+            
             const nome = document.getElementById('nome-orcamento').value;
             const email = document.getElementById('email-orcamento').value;
             const telefone = document.getElementById('telefone-orcamento').value;
