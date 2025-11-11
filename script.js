@@ -168,10 +168,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ===============================================
-// 6. FORMULÁRIO PARA WHATSAPP (OUVINDO O CLIQUE DO BOTÃO)
+// 6. FORMULÁRIO PARA WHATSAPP (CÓDIGO FINAL E SEGURO)
 // ===============================================
 const orcamentoForm = document.getElementById('orcamentoForm');
-const botaoOrcamento = document.getElementById('enviarOrcamento'); // <--- USANDO O ID DO SEU BOTÃO!
+// Usamos o ID do seu botão, conforme definimos para o teste
+const botaoOrcamento = document.getElementById('enviarOrcamento'); 
 const whatsappNumber = "5531993170196";
 
 if (botaoOrcamento && orcamentoForm) {
@@ -179,7 +180,7 @@ if (botaoOrcamento && orcamentoForm) {
     botaoOrcamento.addEventListener('click', function (e) { 
         e.preventDefault(); 
         
-        // Função segura para coletar dados (para evitar erros de 'null')
+        // Função segura para coletar dados (evita erros de ID)
         const getVal = (id) => document.getElementById(id)?.value || 'Não Informado/Faltante';
 
         const nome = getVal('nome-orcamento');
@@ -190,10 +191,10 @@ if (botaoOrcamento && orcamentoForm) {
         const ambiente = getVal('ambiente');
         const detalhes = getVal('detalhes');
 
-        // Adiciona um log crucial para sabermos que o click foi detectado
+        // Esta mensagem de Console é opcional, mas útil para debug
         console.log("DADOS COLETADOS. TENTANDO ABRIR WHATSAPP..."); 
 
-        // Montagem da mensagem
+        // Montagem da mensagem FINAL com todos os campos
         const quebraLinha = '%0A';
         let mensagem = `*🚨 NOVO PEDIDO DE ORÇAMENTO RÚSTICOS DINIZ 🚨*${quebraLinha}${quebraLinha}`;
         mensagem += `*Nome:* ${nome}${quebraLinha}`;
@@ -213,7 +214,6 @@ if (botaoOrcamento && orcamentoForm) {
         orcamentoForm.reset();
     });
 }
-
     // ===============================================
     // 7. EXECUÇÃO FINAL
     // ===============================================
