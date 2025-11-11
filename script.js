@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     // ===============================================
     // VARIÁVEIS GLOBAIS
@@ -10,13 +11,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const allPageSections = document.querySelectorAll('.page-section'); 
 
     // ===============================================
-    // 1. NAVEGAÇÃO ENTRE SEÇÕES
+    // 1. NAVEGAÇÃO ENTRE SEÇÕES (POSSÍVEL CAUSA DO PROBLEMA DAS ABAS)
     // ===============================================
     function navigateToSection(hash) {
+        // Remove a classe 'active' de todas as seções
         allPageSections.forEach(section => section.classList.remove('active'));
+        
+        // Esconde o modal, fecha o menu lateral e esconde o submenu
         if (modal) modal.style.display = "none";
         if (menuLateral) menuLateral.classList.remove('menu-aberto');
-        if (submenu) submenu.classList.remove('mostrar');
+        if (submenu) submenu.classList.remove('mostrar'); // <--- Linha importante para fechar o submenu
 
         const sectionId = hash.startsWith('#') ? hash : `#${hash}`;
         const targetSection = document.querySelector(sectionId);
@@ -39,16 +43,20 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('#menuLateral a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const hash = this.getAttribute('href');
+            
+            // LÓGICA ESPECÍFICA PARA O LINK '#catalogo'
             if (hash === '#catalogo') {
-                e.preventDefault();
+                e.preventDefault(); // Previne a navegação
                 const catalogoSubmenu = this.nextElementSibling;
                 if (catalogoSubmenu && catalogoSubmenu.classList.contains('submenu')) {
-                    catalogoSubmenu.classList.toggle('mostrar');
+                    catalogoSubmenu.classList.toggle('mostrar'); // Apenas mostra/esconde o submenu
                 }
-                return;
+                return; // Pára aqui, NÃO executa navigateToSection
             }
+            
+            // LÓGICA PARA TODOS OS OUTROS LINKS (INCLUINDO 'Todos os Produtos' se for um link direto)
             e.preventDefault();
-            navigateToSection(hash);
+            navigateToSection(hash); // Navega e FECHA o submenu (dentro da função)
         });
     });
 
@@ -158,14 +166,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ===============================================
-    // 6. FORMULÁRIO PARA WHATSAPP
+    // 6. FORMULÁRIO PARA WHATSAPP (A PARTE QUE DEVE FUNCIONAR)
     // ===============================================
     const orcamentoForm = document.getElementById('orcamentoForm');
     const whatsappNumber = "5531993170196";
 
     if (orcamentoForm) {
         orcamentoForm.addEventListener('submit', function (e) {
-            e.preventDefault();
+            e.preventDefault(); // <-- IMPEDE O RECARREGAMENTO DA PÁGINA
 
             const nome = document.getElementById('nome-orcamento').value;
             const email = document.getElementById('email-orcamento').value;
@@ -175,6 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const ambiente = document.getElementById('ambiente').value;
             const detalhes = document.getElementById('detalhes').value;
 
+            // Montagem da mensagem
             const quebraLinha = '%0A';
             let mensagem = `*🚨 NOVO PEDIDO DE ORÇAMENTO RÚSTICOS DINIZ 🚨*${quebraLinha}${quebraLinha}`;
             mensagem += `*Nome:* ${nome}${quebraLinha}`;
@@ -190,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const urlMensagem = encodeURIComponent(mensagem);
             const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${urlMensagem}`;
 
-            window.open(url, '_blank');
+            window.open(url, '_blank'); // Abre a nova aba/janela do WhatsApp
             orcamentoForm.reset();
         });
     }
@@ -199,5 +208,5 @@ document.addEventListener('DOMContentLoaded', function () {
     // 7. EXECUÇÃO FINAL
     // ===============================================
     initializeCarousels();
-    // if (typeof popularSecaoTodos === 'function') { popularSecaoTodos(); }
+    // if (typeof popularSecaoTodos === 'function') { popularSecaoTodos(); } // <-- MANTENHA COMENTADA SE A FUNÇÃO NÃO EXISTE!
 });
