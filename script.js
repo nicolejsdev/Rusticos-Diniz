@@ -256,13 +256,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const orcamentoForm = document.getElementById('orcamentoForm');
+    const enviarBtn = document.getElementById('enviarOrcamento');
     const whatsappNumber = "5531993170196";
 
-    if (orcamentoForm) {
-        orcamentoForm.addEventListener('submit', function (e) {
-            e.preventDefault(); // Impede o envio padrão
-
+    if (enviarBtn) {
+        enviarBtn.addEventListener('click', function () {
             const nome = document.getElementById('nome-orcamento').value;
             const email = document.getElementById('email-orcamento').value;
             const telefone = document.getElementById('telefone-orcamento').value;
@@ -287,10 +285,8 @@ document.addEventListener('DOMContentLoaded', function () {
             const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${urlMensagem}`;
 
             window.open(url, '_blank');
-            orcamentoForm.reset();
+            document.getElementById('orcamentoForm').reset();
         });
-    } else {
-        console.warn('Formulário com id="orcamentoForm" não encontrado.');
     }
 });
 </script>
