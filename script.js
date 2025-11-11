@@ -168,29 +168,48 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ===============================================
-// 6. TESTE DE ISOLAMENTO (SUBSTITUA TEMPORARIAMENTE)
+// 6. FORMULÁRIO PARA WHATSAPP (OUVINDO O CLIQUE DO BOTÃO)
 // ===============================================
 const orcamentoForm = document.getElementById('orcamentoForm');
+const botaoOrcamento = document.getElementById('enviarOrcamento'); // <--- USANDO O ID DO SEU BOTÃO!
 const whatsappNumber = "5531993170196";
 
-if (orcamentoForm) {
-    orcamentoForm.addEventListener('submit', function (e) {
-        e.preventDefault(); // IMPEDE O ENVIO PADRÃO
-
-        // MENSAGEM MÍNIMA DE TESTE
-        const mensagemTeste = "TESTE DE ENVIO WHATSAPP BEM SUCEDIDO!";
+if (botaoOrcamento && orcamentoForm) {
+    // Ouvindo o 'click' diretamente no botão
+    botaoOrcamento.addEventListener('click', function (e) { 
+        e.preventDefault(); 
         
-        // CONSTRUÇÃO DA URL BÁSICA
-        const urlMensagem = encodeURIComponent(mensagemTeste);
+        // Função segura para coletar dados (para evitar erros de 'null')
+        const getVal = (id) => document.getElementById(id)?.value || 'Não Informado/Faltante';
+
+        const nome = getVal('nome-orcamento');
+        const email = getVal('email-orcamento');
+        const telefone = getVal('telefone-orcamento');
+        const tipo = getVal('tipo');
+        const madeira = getVal('madeira');
+        const ambiente = getVal('ambiente');
+        const detalhes = getVal('detalhes');
+
+        // Adiciona um log crucial para sabermos que o click foi detectado
+        console.log("DADOS COLETADOS. TENTANDO ABRIR WHATSAPP..."); 
+
+        // Montagem da mensagem
+        const quebraLinha = '%0A';
+        let mensagem = `*🚨 NOVO PEDIDO DE ORÇAMENTO RÚSTICOS DINIZ 🚨*${quebraLinha}${quebraLinha}`;
+        mensagem += `*Nome:* ${nome}${quebraLinha}`;
+        mensagem += `*Email:* ${email}${quebraLinha}`;
+        mensagem += `*Telefone:* ${telefone}${quebraLinha}${quebraLinha}`;
+        mensagem += `*Detalhes do Projeto:*${quebraLinha}`;
+        mensagem += `  - Tipo: ${tipo}${quebraLinha}`;
+        mensagem += `  - Madeira Preferida: ${madeira}${quebraLinha}`;
+        mensagem += `  - Ambiente: ${ambiente}${quebraLinha}${quebraLinha}`;
+        mensagem += `*Descrição/Dimensões:*${quebraLinha}${detalhes}${quebraLinha}${quebraLinha}`;
+        mensagem += `A foto de referência deve ser enviada após esta mensagem.`;
+
+        const urlMensagem = encodeURIComponent(mensagem);
         const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${urlMensagem}`;
 
-        // TENTA ABRIR O WHATSAPP
-        console.log("Tentando abrir o WhatsApp com URL:", url);
         window.open(url, '_blank');
-        
-        // MOSTRA UMA MENSAGEM NO CONSOLE SE TUDO FUNCIONOU ATÉ AQUI
-        console.log("Execução da função concluída.");
-
         orcamentoForm.reset();
     });
 }
