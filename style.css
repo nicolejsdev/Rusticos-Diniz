@@ -272,7 +272,7 @@ header {
 }
 
 #menuLateral .submenu a {
-    color: #556B2F; /* Verde musgo */
+    color: #F5F5DC; /* Bege */
     font-size: 1em;
     padding: 1em 2em;
     padding-left: 3em;
@@ -555,7 +555,7 @@ header {
 }
 /*
 * ====================================================================
-* 4.2. ESTILOS ESPECÍFICOS PARA SEÇÃO LANÇAMENTO (Toca Pet)
+* 4.2. ESTILOS ESPECÍFICOS PARA SEÇÃO LANÇAMENTO (Deck)
 * ====================================================================
 */
 
@@ -569,52 +569,161 @@ header {
     color: #7B3F00; /* Marrom de Carvalho */
     font-size: 2.5em; 
     margin-bottom: 0.8em;
+    text-align: center;
 }
 
-/* Texto Introdutório e Chamada para Ação */
-.introducao, .chamada-acao {
+/* Texto Introdutório (adaptado para o Deck) */
+.introducao {
     font-size: 1.3em;
     text-align: center;
     max-width: 800px;
     margin: 1em auto;
 }
 
-.chamada-acao {
-    font-weight: bold;
-    color: #A0522D; /* Marrom Siena - Destaque */
+/* 🚀 NOVO ESTILO PARA O PARÁGRAFO PRINCIPAL (FONTE AUMENTADA) */
+/* Aplica-se ao parágrafo do "Este deck de madeira não é apenas..." e "Viva a Experiência" */
+.container p:not(.introducao) {
+    font-size: 1.15em; /* Aumento da fonte principal para 1.15em */
+    line-height: 1.6; /* Melhor espaçamento entre linhas para melhor leitura */
+    text-align: center; /* Centraliza o texto para melhor harmonia visual */
+    max-width: 900px;
+    margin: 1.5em auto;
 }
 
-/* --- Galeria de Imagens da Toca (Flex Grid) --- */
-.galeria-toca {
-    display: flex;
-    flex-wrap: wrap; /* Garante que quebre a linha em mobile */
-    justify-content: center;
-    gap: 15px;
-    margin: 2em 0;
+/* --- Galeria de Imagens do Deck (Grid Responsivo) --- */
+.galeria-deck {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px; 
+    margin: 2em auto;
+    max-width: 1050px; 
+    padding: 0 15px;
 }
 
-.imagem-toca {
-    width: 100%; /* Largura máxima para mobile */
-    max-width: 350px; /* Limita o tamanho em telas maiores */
-    height: 250px; /* Altura fixa para uniformidade */
-    object-fit: cover;
+.item-galeria {
+    width: 100%; 
+    height: 250px; 
+    overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
 }
 
-.imagem-toca:hover {
+.item-galeria img {
+    width: 100%; 
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.item-galeria:hover {
     transform: scale(1.05);
 }
 
-/* --- Conteúdo das Características --- */
-.caracteristicas-toca {
+
+/* --- Conteúdo das Características do Deck --- */
+.caracteristicas-deck { /* Nova classe usada no HTML */
     text-align: left;
     margin: 30px auto;
     max-width: 800px;
+    padding: 0 15px;
 }
 
-.caracteristicas-toca h3 {
+.caracteristicas-deck h3 {
+    font-family: 'Playfair Display', serif; 
+    font-size: 1.8em; /* Fonte aumentada de 1.6em para 1.8em */
+    color: #556B2F; 
+    margin-top: 25px;
+    border-bottom: 2px solid #E0DBCF; 
+    padding-bottom: 5px;
+}
+
+.caracteristicas-deck ul {
+    list-style: disc;
+    margin: 1em 0 1.5em 2em;
+}
+
+/* 🚀 NOVO ESTILO PARA OS ITENS DA LISTA DE DESTAQUES (FONTE AUMENTADA) */
+.caracteristicas-deck ul li {
+    font-size: 1.1em; /* Aumento da fonte para 1.1em */
+    line-height: 1.5;
+    margin-bottom: 10px; /* Adiciona um pequeno espaço entre os itens */
+}
+
+
+/* --- Media Query para Responsividade --- */
+
+@media (max-width: 900px) {
+    .galeria-deck {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .galeria-deck {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+@media (min-width: 768px) {
+    .item-galeria {
+        height: 300px;
+    }
+    .titulo-lancamento {
+        font-size: 3em;
+    }
+}
+
+/* --- Galeria de Imagens do Deck (Adaptado de Flex para Grid, conforme sugerido) --- */
+/*
+* NOTA: Eu mantive a estrutura de Grid Responsivo (3 colunas em desktop, 2 em mobile)
+* que é ideal para 13 imagens, mas mantive o conceito de "imagem-grande" para manter 
+* o estilo visual semelhante ao que você tinha, garantindo que as imagens se ajustem bem.
+*/
+.galeria-deck {
+    display: grid;
+    /* 3 colunas em telas maiores para melhor aproveitamento */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px; /* Mantém o gap do media query de desktop para coesão */
+    margin: 2em auto;
+    max-width: 1050px; /* Limita a largura do container */
+    padding: 0 15px;
+}
+
+.item-galeria {
+    /* O item da galeria substitui .imagem-toca, garantindo a proporção */
+    width: 100%; 
+    height: 250px; /* Altura fixa para uniformidade (igual a .imagem-toca) */
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Aplica os estilos de imagem na tag <img> dentro do item */
+.item-galeria img {
+    width: 100%; /* Garante que a imagem preencha o container */
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.item-galeria:hover {
+    transform: scale(1.05);
+}
+
+
+/* --- Conteúdo das Características (Adaptado para Deck) --- */
+.caracteristicas-deck { /* Nova classe usada no HTML */
+    text-align: left;
+    margin: 30px auto;
+    max-width: 800px;
+    padding: 0 15px;
+}
+
+.caracteristicas-deck h3 {
     font-family: 'Playfair Display', serif; /* Mantém a fonte dos títulos */
     font-size: 1.6em;
     color: #556B2F; /* Verde-musgo */
@@ -623,53 +732,42 @@ header {
     padding-bottom: 5px;
 }
 
-.caracteristicas-toca ul {
+.caracteristicas-deck ul {
     list-style: disc;
     margin: 1em 0 1.5em 2em;
 }
 
-.dimensoes {
-    font-style: italic;
-    color: #4B3832;
-    margin-top: 1.5em;
-}
+/* ************ CLASSES REMOVIDAS ************ */
+/* Removidas classes específicas da Toca que não são mais usadas:
+   .chamada-acao, .dimensoes, .botao-comprar
+*/
 
-/* --- Botão Comprar Agora --- */
-.botao-comprar {
-    /* Usa a cor de destaque da sua paleta */
-    background-color: #A0522D; 
-    color: #FFFFFF;
-    
-    padding: 15px 40px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1.2em;
-    
-    display: inline-block;
-    margin-top: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.botao-comprar:hover {
-    background-color: #7B3F00; /* Cor do Header/Footer no hover */
-    transform: translateY(-2px);
-}
 
 /* --- Media Query para Desktop/Tablet --- */
-@media (min-width: 768px) {
-    .imagem-toca {
-        height: 300px; /* Aumenta a altura no desktop */
+@media (max-width: 900px) {
+    .galeria-deck {
+        /* Muda para 2 colunas em telas médias */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
-    .galeria-toca {
-        gap: 30px;
+}
+
+@media (max-width: 600px) {
+    .galeria-deck {
+        /* Muda para 1 coluna em telas de celular */
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+@media (min-width: 768px) {
+    .item-galeria {
+        height: 300px; /* Aumenta a altura no desktop */
     }
     .titulo-lancamento {
         font-size: 3em;
     }
 }
-
 /*
 * ====================================================================
 * 5. FORMULÁRIOS (Contato e Orçamento)
