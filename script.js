@@ -1,6 +1,36 @@
+document.addEventListener('DOMContentLoaded', function() {
 
-document.addEventListener('DOMContentLoaded', function () {
- console.log("SCRIPT CARREGADO COM SUCESSO!"); // <-- ADICIONE ESTA LINHA AQUI!
+    // ===============================================
+    // FUNÇÃO PARA POPULAR A SEÇÃO #TODOS COM TODOS OS PROJETOS
+    // (MANTIDA COMENTADA, conforme seu código original)
+    // ===============================================
+    
+    /*
+    function popularSecaoTodos() {
+        const secaoTodos = document.getElementById('todos');
+        const galeriaTodos = secaoTodos ? secaoTodos.querySelector('.galeria') : null;
+
+        if (!galeriaTodos) return;
+
+        // Linha original: APAGAVA suas 106 imagens. Comentamos para usar as imagens do HTML.
+        // galeriaTodos.innerHTML = ''; 
+
+        // Seleciona todas as galerias de produtos, EXCLUINDO a galeria dentro da própria #todos
+        const todasGaleiras = document.querySelectorAll('.page-section .galeria:not(#todos .galeria)');
+
+        todasGaleiras.forEach(galeria => {
+            const cartoes = galeria.querySelectorAll('.cartao-projeto');
+            
+            cartoes.forEach(cartao => {
+                // Clona o cartão (deep: true)
+                const cartaoClonado = cartao.cloneNode(true);
+                
+                // Adiciona a cópia na galeria da seção #todos
+                galeriaTodos.appendChild(cartaoClonado);
+            });
+        });
+    }
+    */
 
     // ===============================================
     // VARIÁVEIS GLOBAIS
@@ -8,77 +38,114 @@ document.addEventListener('DOMContentLoaded', function () {
     const menuLateral = document.getElementById('menuLateral');
     const abrirMenuBtn = document.getElementById('abrirMenuBtn');
     const fecharMenuBtn = document.getElementById('fecharMenuBtn');
+    // Usada para fechar o submenu ao navegar para outra seção
     const submenu = document.querySelector('.submenu'); 
     const modal = document.getElementById("modal-madeira"); 
     const allPageSections = document.querySelectorAll('.page-section'); 
-
+    
+    
     // ===============================================
-    // 1. NAVEGAÇÃO ENTRE SEÇÕES (POSSÍVEL CAUSA DO PROBLEMA DAS ABAS)
+    // 1. LÓGICA DE NAVEGAÇÃO E EXIBIÇÃO DE SEÇÕES (Ajuste Final de Fluxo)
     // ===============================================
     function navigateToSection(hash) {
-        // Remove a classe 'active' de todas as seções
-        allPageSections.forEach(section => section.classList.remove('active'));
         
-        // Esconde o modal, fecha o menu lateral e esconde o submenu
+        // 1. Oculta todas as seções
+        allPageSections.forEach(section => {
+            section.classList.remove('active');
+        });
+
+        // 2. Fecha tudo (Modal, Menu Principal e Submenu)
+        // CRÍTICO: Fecha o modal antes de qualquer navegação
         if (modal) modal.style.display = "none";
         if (menuLateral) menuLateral.classList.remove('menu-aberto');
-        if (submenu) submenu.classList.remove('mostrar'); // <--- Linha importante para fechar o submenu
+        
+        // CORREÇÃO CRÍTICA: Se o submenu estiver aberto, feche-o!
+        if (submenu) submenu.classList.remove('mostrar'); 
 
+
+        // 3. Ativa a nova seção
         const sectionId = hash.startsWith('#') ? hash : `#${hash}`;
         const targetSection = document.querySelector(sectionId);
-
+        
         if (targetSection) {
             targetSection.classList.add('active');
+            
+            // ===============================================
+            // CÓDIGO CRÍTICO: Abre o modal se for a seção Orçamento
+            // ===============================================
             if (sectionId === '#orcamento' && modal) {
+                // Usamos setTimeout para garantir que a transição da seção seja iniciada
                 setTimeout(() => {
-                    modal.style.display = 'flex';
-                }, 100);
+                    // Abre o modal com display 'flex' ou 'block' (use o que seu CSS usa para centralizar)
+                    modal.style.display = 'flex'; 
+                }, 100); // Pequeno atraso para garantir que a seção carregue
             }
+            // ===============================================
         }
-
+        
+        // Atualiza a URL (opcional, mas bom para histórico)
         window.history.pushState(null, null, hash);
     }
-
+    
+    // A - NAVEGAÇÃO INICIAL
     const initialHash = window.location.hash || '#home';
     navigateToSection(initialHash);
 
+    // B - LIDA COM CLIQUES NOS LINKS DO MENU 
     document.querySelectorAll('#menuLateral a[href^="#"]').forEach(anchor => {
+        
         anchor.addEventListener('click', function (e) {
+            
             const hash = this.getAttribute('href');
             
-            // LÓGICA ESPECÍFICA PARA O LINK '#catalogo'
+            // --- 1. TRATAMENTO DE LINKS ESPECIAIS (NÃO NAVEGÁVEIS) ---
+            
+            // Link Catálogo: Apenas alterna o submenu (Solução robusta)
             if (hash === '#catalogo') {
-                e.preventDefault(); // Previne a navegação
-                const catalogoSubmenu = this.nextElementSibling;
+                e.preventDefault();
+                
+                // CRÍTICO: Usa 'this.nextElementSibling' para encontrar o submenu correto.
+                const catalogoSubmenu = this.nextElementSibling; 
+                
                 if (catalogoSubmenu && catalogoSubmenu.classList.contains('submenu')) {
-                    catalogoSubmenu.classList.toggle('mostrar'); // Apenas mostra/esconde o submenu
+                    catalogoSubmenu.classList.toggle('mostrar');
                 }
-                return; // Pára aqui, NÃO executa navigateToSection
+                return; // IMPEDE que o JS tente navegar como uma seção
             }
             
-            // LÓGICA PARA TODOS OS OUTROS LINKS (INCLUINDO 'Todos os Produtos' se for um link direto)
-            e.preventDefault();
-            navigateToSection(hash); // Navega e FECHA o submenu (dentro da função)
+            // --- 2. NAVEGAÇÃO PARA SEÇÕES PADRÃO (Home, Sobre, Orçamento, Contato, Todos, Categorias) ---
+            e.preventDefault(); 
+            navigateToSection(hash); 
         });
     });
 
     // ===============================================
-    // 2. MENU LATERAL
+    // 2. LÓGICA DO MENU LATERAL (SIDEBAR)
     // ===============================================
+
     if (abrirMenuBtn && menuLateral) {
-        abrirMenuBtn.onclick = () => menuLateral.classList.add('menu-aberto');
-    }
-    if (fecharMenuBtn && menuLateral) {
-        fecharMenuBtn.onclick = () => menuLateral.classList.remove('menu-aberto');
+        abrirMenuBtn.onclick = function() {
+            menuLateral.classList.add('menu-aberto');
+        };
     }
 
+    if (fecharMenuBtn && menuLateral) {
+        fecharMenuBtn.onclick = function() {
+            menuLateral.classList.remove('menu-aberto');
+        };
+    }
+    
     // ===============================================
-    // 3. MODAL
+    // 3. LÓGICA DO MODAL (Janela Pop-up)
     // ===============================================
     const closeButton = document.querySelector(".close-button");
+    
     if (closeButton && modal) {
-        closeButton.onclick = () => modal.style.display = "none";
+        closeButton.onclick = function() {
+            modal.style.display = "none";
+        };
     }
+
     if (modal) {
         window.onclick = function(event) {
             if (event.target == modal) {
@@ -86,20 +153,22 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         };
     }
+    // NOVO: Fechar modal com tecla ESC
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape' && modal && modal.style.display === 'flex') {
             modal.style.display = 'none';
         }
     });
-
+    
     // ===============================================
-    // 4. SLIDESHOW DO CABEÇALHO
+    // 4. SLIDESHOW DO CABEÇALHO 
     // ===============================================
     const headerSlides = document.querySelectorAll('.header-slideshow-container .slide'); 
     let currentHeaderSlide = 0; 
 
     function nextHeaderSlide() {
         if (headerSlides.length === 0) return;
+        
         headerSlides[currentHeaderSlide].classList.remove('active');
         currentHeaderSlide = (currentHeaderSlide + 1) % headerSlides.length;
         headerSlides[currentHeaderSlide].classList.add('active');
@@ -109,28 +178,37 @@ document.addEventListener('DOMContentLoaded', function () {
         headerSlides[0].classList.add('active');
         setInterval(nextHeaderSlide, 5000); 
     }
-
+    
     // ===============================================
-    // 5. CARROSSÉIS DE PRODUTO
+    // 5. LÓGICA DOS CARROSSÉIS DE PRODUTO
     // ===============================================
+    
     function initializeCarousels() {
         const carrosseis = document.querySelectorAll('.carrossel-container');
+
         carrosseis.forEach(container => {
             const imagensContainer = container.querySelector('.carrossel-imagens'); 
+            
             if (!imagensContainer) return; 
+            
             const imagens = imagensContainer.querySelectorAll('a');
+            
             const prevBtn = container.querySelector('.anterior-btn'); 
             const nextBtn = container.querySelector('.proximo-btn'); 
+            
             const dots = container.querySelectorAll('.dot');
+            
             let currentIndex = 0;
 
             if (imagens.length <= 1) {
                 if (prevBtn) prevBtn.style.display = 'none';
                 if (nextBtn) nextBtn.style.display = 'none';
                 dots.forEach(dot => dot.style.display = 'none');
+                
                 if (imagens.length === 1) {
                     imagensContainer.style.transform = 'translateX(0)';
                 }
+                
                 return; 
             }
 
@@ -138,10 +216,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 currentIndex = index; 
                 const offset = -currentIndex * 100; 
                 imagensContainer.style.transform = `translateX(${offset}%)`;
-                dots.forEach(dot => dot.classList.remove('active'));
-                if (dots[index]) dots[index].classList.add('active');
-            }
 
+                dots.forEach(dot => dot.classList.remove('active'));
+                if (dots[index]) {
+                    dots[index].classList.add('active');
+                }
+            }
+            
             function nextImage(e) {
                 if (e) e.preventDefault(); 
                 currentIndex = (currentIndex + 1) % imagens.length;
@@ -153,9 +234,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 currentIndex = (currentIndex - 1 + imagens.length) % imagens.length; 
                 showImage(currentIndex);
             }
+            
+            if (nextBtn) {
+                nextBtn.addEventListener('click', nextImage);
+            }
 
-            if (nextBtn) nextBtn.addEventListener('click', nextImage);
-            if (prevBtn) prevBtn.addEventListener('click', prevImage);
+            if (prevBtn) {
+                prevBtn.addEventListener('click', prevImage);
+            }
+            
             dots.forEach((dot, index) => {
                 dot.addEventListener('click', (e) => {
                     e.preventDefault(); 
@@ -167,56 +254,94 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ===============================================
-// 6. FORMULÁRIO PARA WHATSAPP (CÓDIGO FINAL E SEGURO)
+
 // ===============================================
+// 6. LÓGICA DE ENVIO DO FORMULÁRIO PARA WHATSAPP (SOLUÇÃO DEFINITIVA)
+// ===============================================
+
 const orcamentoForm = document.getElementById('orcamentoForm');
-// Usamos o ID do seu botão, conforme definimos para o teste
-const botaoOrcamento = document.getElementById('enviarOrcamento'); 
-const whatsappNumber = "5531993170196";
+const rawWhatsappNumber = "5531993170196"; // O NÚMERO CORRETO
 
-if (botaoOrcamento && orcamentoForm) {
-    // Ouvindo o 'click' diretamente no botão
-    botaoOrcamento.addEventListener('click', function (e) { 
-        e.preventDefault(); 
-        
-        // Função segura para coletar dados (evita erros de ID)
-        const getVal = (id) => document.getElementById(id)?.value || 'Não Informado/Faltante';
-
-        const nome = getVal('nome-orcamento');
-        const email = getVal('email-orcamento');
-        const telefone = getVal('telefone-orcamento');
-        const tipo = getVal('tipo');
-        const madeira = getVal('madeira');
-        const ambiente = getVal('ambiente');
-        const detalhes = getVal('detalhes');
-
-        // Esta mensagem de Console é opcional, mas útil para debug
-        console.log("DADOS COLETADOS. TENTANDO ABRIR WHATSAPP..."); 
-
-        // Montagem da mensagem FINAL com todos os campos
-        const quebraLinha = '%0A';
-        let mensagem = `*🚨 NOVO PEDIDO DE ORÇAMENTO RÚSTICOS DINIZ 🚨*${quebraLinha}${quebraLinha}`;
-        mensagem += `*Nome:* ${nome}${quebraLinha}`;
-        mensagem += `*Email:* ${email}${quebraLinha}`;
-        mensagem += `*Telefone:* ${telefone}${quebraLinha}${quebraLinha}`;
-        mensagem += `*Detalhes do Projeto:*${quebraLinha}`;
-        mensagem += `  - Tipo: ${tipo}${quebraLinha}`;
-        mensagem += `  - Madeira Preferida: ${madeira}${quebraLinha}`;
-        mensagem += `  - Ambiente: ${ambiente}${quebraLinha}${quebraLinha}`;
-        mensagem += `*Descrição/Dimensões:*${quebraLinha}${detalhes}${quebraLinha}${quebraLinha}`;
-        mensagem += `A foto de referência deve ser enviada após esta mensagem.`;
-
-        const urlMensagem = encodeURIComponent(mensagem);
-        const url = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${urlMensagem}`;
-
-        window.open(url, '_blank');
-        orcamentoForm.reset();
-    });
+// Função para garantir que o número usado na URL contenha apenas dígitos
+function cleanPhoneNumber(number) {
+    return number.replace(/[^0-9]/g, ''); 
 }
+
+const whatsappNumberClean = cleanPhoneNumber(rawWhatsappNumber);
+
+// Função simples para detectar se é um dispositivo móvel
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+function handleFormSubmit(e) {
+    e.preventDefault(); 
+
+    // Coleta os valores
+    const nome = document.getElementById('nome-orcamento').value;
+    const email = document.getElementById('email-orcamento').value;
+    const telefone = document.getElementById('telefone-orcamento').value;
+    const tipo = document.getElementById('tipo').value;
+    const madeira = document.getElementById('madeira').value;
+    const ambiente = document.getElementById('ambiente').value;
+    const detalhes = document.getElementById('detalhes').value;
+
+    // Monta a mensagem final usando \n
+    const mensagemCrua = `
+🚨 NOVO PEDIDO DE ORÇAMENTO RÚSTICOS DINIZ 🚨
+
+*Nome:* ${nome}
+*Email:* ${email}
+*Telefone:* ${telefone || 'Não Informado'}
+
+*Detalhes do Projeto:*
+ - Tipo: ${tipo || 'Não Informado'}
+ - Madeira Preferida: ${madeira || 'Não Informado'}
+ - Ambiente: ${ambiente || 'Não Informado'}
+
+*Descrição/Dimensões:*
+${detalhes}
+
+A foto de referência deve ser enviada após esta mensagem.
+    `.trim(); 
+    
+    // Codifica a mensagem
+    const urlMensagemCodificada = encodeURIComponent(mensagemCrua);
+
+    let url;
+
+    if (isMobileDevice()) {
+        // Mobile (whatsapp://)
+        url = `whatsapp://send?phone=${whatsappNumberClean}&text=${urlMensagemCodificada}`;
+    } else {
+        // Desktop (wa.me)
+        url = `https://wa.me/${whatsappNumberClean}?text=${urlMensagemCodificada}`;
+    }
+    
+    // Abre a conversa
+    window.open(url, '_blank');
+
+    orcamentoForm.reset();
+}
+
+if (orcamentoForm) {
+    // Tenta remover qualquer listener de submit antigo (SOLUÇÃO EXTRA)
+    // Isso é útil se o código antigo foi anexado por acidente duas vezes.
+    orcamentoForm.removeEventListener('submit', handleFormSubmit); 
+    
+    // Adiciona o novo e correto listener
+    orcamentoForm.addEventListener('submit', handleFormSubmit);
+}
+
     // ===============================================
-    // 7. EXECUÇÃO FINAL
+    // 7. CHAMADAS FINAIS DE FUNÇÃO (EXECUÇÃO)
     // ===============================================
+
+    // Chama a função para iniciar todos os carrosséis
     initializeCarousels();
-    // if (typeof popularSecaoTodos === 'function') { popularSecaoTodos(); } // <-- MANTENHA COMENTADA SE A FUNÇÃO NÃO EXISTE!
-});
+
+    // Se a função popularSecaoTodos for descomentada, ela deve ser chamada aqui:
+    // if (typeof popularSecaoTodos === 'function') { popularSecaoTodos(); }
+
+
+}); // <--- FECHAMENTO FINAL DO document.addEventListener
