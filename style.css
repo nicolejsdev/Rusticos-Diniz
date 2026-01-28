@@ -1403,3 +1403,32 @@ footer {
         height: 600px;
     }
 }
+/* 🔧 Ajustes específicos para a seção de Mesas */
+#mesas .galeria {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  align-items: stretch; /* força todos os cartões a terem a mesma altura */
+}
+
+#mesas .cartao-projeto {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 450px; /* ajuste conforme necessário */
+  margin: 0 auto;
+}
+
+#mesas .cartao-projeto > a img {
+  height: 300px; /* igual ao carrossel */
+  width: 100%;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid #E0DBCF;
+}
+
+#mesas .cartao-conteudo-texto {
+  text-align: center;
+  margin-top: auto;
+}
+
