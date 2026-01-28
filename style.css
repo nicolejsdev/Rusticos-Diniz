@@ -1406,21 +1406,26 @@ footer {
 /* 🔧 Ajustes específicos para a seção de Mesas */
 #mesas .galeria {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, 1fr); /* força 3 por linha */
   gap: 20px;
-  align-items: stretch; /* força todos os cartões a terem a mesma altura */
+  align-items: stretch;
+  justify-items: center;
+  padding: 1em;
 }
 
 #mesas .cartao-projeto {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 450px; /* ajuste conforme necessário */
+  min-height: 450px;
+  width: 100%;
+  max-width: 350px; /* controla largura máxima de cada cartão */
   margin: 0 auto;
 }
 
-#mesas .cartao-projeto > a img {
-  height: 300px; /* igual ao carrossel */
+#mesas .cartao-projeto > a img,
+#mesas .carrossel-container img {
+  height: 300px;
   width: 100%;
   object-fit: cover;
   display: block;
@@ -1431,4 +1436,6 @@ footer {
   text-align: center;
   margin-top: auto;
 }
+
+
 
